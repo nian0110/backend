@@ -7,6 +7,10 @@ import random
 app = Flask(__name__)
 CORS(app)  # 允許所有來源的 CORS
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
 @app.route("/images", methods=["POST"])
 def get_images():
     # 讀取CSV文件
