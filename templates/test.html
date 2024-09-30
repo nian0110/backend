@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h3>Group A</h3>
+<input type="checkbox" id="a" name="A" value="活動"> A - 活動<br>
+<input type="checkbox" id="b" name="A" value="拍攝"> A - 拍攝<br>
+
+<h3>Group B</h3>
+<input type="checkbox" id="d" name="B" value="lingorm"> B - lingorm<br>
+<input type="checkbox" id="e" name="B" value="ling"> B - ling<br>
+<input type="checkbox" id="f" name="B" value="orm"> B - orm<br>
+
+<br>
+<button id="submitBtn">Submit</button>
+
+<script>
+    $(document).ready(function () {
+        $('#submitBtn').click(function () {
+            // 收集A组复选框的选项
+            var A_list = [];
+            $('input[name="A"]:checked').each(function () {
+                A_list.push($(this).val());
+            });
+
+            // 收集B组复选框的选项
+            var B_list = [];
+            $('input[name="B"]:checked').each(function () {
+                B_list.push($(this).val());
+            });
+
+            // 检查A和B组是否至少有一个被选中
+            if (A_list.length === 0 || B_list.length === 0) {
+                alert("Group A and Group B must have at least one selected checkbox.");
+                return;
+            }
+
+            // 发送POST请求
+            $.ajax({
+                url: "/get_data",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    A: A_list,
+                    B: B_list
+                }),
+                success: function (response) {
+                    console.log("Response from server:", response);
+                    alert("Data submitted successfully!", data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error occurred:", status, error);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
